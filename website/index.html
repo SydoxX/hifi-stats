@@ -1,0 +1,103 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>High Fidelity Statistics</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <!--Load the AJAX API-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript">
+
+            // Load the Visualization API and the piechart package.
+            google.charts.load('current', {'packages':['corechart']});
+
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.charts.setOnLoadCallback(drawCharts);
+            function drawCharts() {
+                drawChartUsers();
+                drawChartDomains();
+            }
+
+            var options = {
+                'title': 'Statistics',
+                'width': 600,
+                'height': 400,
+                colors: ['#e04324'],
+                vAxis: {
+                    minValue: 0
+                },
+                hAxis: {
+                    format: 'dd/MM/yyyy HH:mm'
+                },
+                explorer: {
+	            actions: ['dragToZoom', 'rightClickToReset'],
+	            axis: 'horizontal',
+	            keepInBounds: true
+	         }
+            };
+            function drawChartUsers() {
+                var jsonData = $.ajax({
+                    url: "fetch_stats.php?stats=users",
+                    dataType: "json",
+                    async: false
+                }).responseText;
+
+                // Create our data table out of JSON data loaded from server.
+                var data = new google.visualization.DataTable(jsonData);
+
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+            }
+            function drawChartDomains() {
+                var jsonData = $.ajax({
+                    url: "fetch_stats.php?stats=domains",
+                    dataType: "json",
+                    async: false
+                }).responseText;
+
+                // Create our data table out of JSON data loaded from server.
+                var data = new google.visualization.DataTable(jsonData);
+
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div_domains'));
+                chart.draw(data, options);
+            }
+
+        </script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <!--Div that will hold the pie chart-->
+        <div id="chart_div"></div>
+        <div id="chart_div_domains"></div>
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXXXXX-X','auto');ga('send','pageview');
+        </script>
+    </body>
+</html>
