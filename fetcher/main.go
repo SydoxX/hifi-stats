@@ -35,7 +35,7 @@ func errorHandling(err error){
 // Registers DB and does error handling
 func openDB(){
 	var err error
-	db, err = sql.Open("mysql", "adm66895_hifirmt:Music@(m2806.contabo.net:3306)/adm66895_hifi_stats")
+	db, err = sql.Open("mysql", "hifi:123456@hifi_stats")
     	if err != nil {
         	errorHandling(err)  // Just for example purpose. You should use proper error handling instead of panic
     	}
