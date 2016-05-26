@@ -16,7 +16,7 @@ if (!$result = $mysqli->query($sql)) {
 
 if ($result->num_rows > 0) {
     $count = $result->fetch_assoc();
-    echo json_encode(['username' => $count['name'], 'first_login' => $count['first_login'], 'last_login' => $count['last_login']]);
+    echo json_encode(['username' => strtolower($count['name']), 'firstLogin' => $count['first_login'], 'lastLogin' => $count['last_login']]);
 } else {
     echo '{}';
 }

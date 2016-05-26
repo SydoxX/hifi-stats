@@ -46,5 +46,5 @@ if (array_key_exists('errors', $json)) {
     }
     $isStaff = hasUserBadge($json, 4);
     $isAlpha = hasUserBadge($json, 100);
-    echo json_encode(['username' => $username, 'first_login' => $firstLogin, 'last_login' => $lastLogin, 'is_alpha' => $isAlpha, 'is_staff' => $isStaff]);
+    echo json_encode(['username' => strtolower($username), 'firstLogin' => $firstLogin, 'lastLogin' => $lastLogin, 'isAlpha' => $isAlpha, 'isStaff' => $isStaff]);
 }
