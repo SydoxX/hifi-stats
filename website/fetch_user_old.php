@@ -13,6 +13,7 @@ function hasUserBadge($json, $badgeID)
             return true;
         }
     }
+
     return false;
 }
 
