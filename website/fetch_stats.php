@@ -1,5 +1,11 @@
 <?php
 
+$mysqli;
+$result;
+require('common.php');
+ini_set("log_errors", 1);
+ini_set("error_log", "logs/stats.log");
+
 class StatsObject
 {
     public $table = string;
@@ -18,16 +24,16 @@ if ($_GET['stats'] == 'domains') {
     $statsObj->yLabel = 'Users Online';
 }
 
+//Set content header to JSON, so formatting by the browser is done right.
+header('Content-Type: application/json');
 $mysqli = new mysqli('127.0.0.1', 'hifi', '123456', 'hifi_stats');
 if ($mysqli->connect_errno) {
-    echo '{}';
-    exit;
+    respond404AndExit();
 }
 //WHERE WEEKOFYEAR(time) = WEEKOFYEAR(NOW())
 $sql = 'SELECT time, '.$statsObj->{'count'}.' FROM '.$statsObj->{'table'}.' ORDER BY id ASC';
 if (!$result = $mysqli->query($sql)) {
-    echo '{}';
-    exit;
+    respond404AndExit();
 }
 
 while ($count = $result->fetch_assoc()) {
@@ -36,6 +42,4 @@ while ($count = $result->fetch_assoc()) {
 $colsArray[] = ['label' => 'Time', 'type' => 'datetime'];
 $colsArray[] = ['label' => $statsObj->{'yLabel'}, 'type' => 'number'];
 echo json_encode(['cols' => $colsArray, 'rows' => $rowsArray]);
-
-$result->free();
-$mysqli->close();
+exitPhp();
