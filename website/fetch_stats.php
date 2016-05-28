@@ -2,9 +2,9 @@
 
 $mysqli;
 $result;
-require('common.php');
-ini_set("log_errors", 1);
-ini_set("error_log", "logs/stats.log");
+require 'common.php';
+ini_set('log_errors', 1);
+ini_set('error_log', 'logs/stats.log');
 
 class StatsObject
 {
